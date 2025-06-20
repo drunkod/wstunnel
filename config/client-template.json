@@ -1,0 +1,29 @@
+{
+    "log": { "loglevel": "debug" },
+    "inbounds": [{
+      "listen": "0.0.0.0",
+      "port": 10808,
+      "protocol": "socks",
+      "settings": { "auth": "noauth", "udp": true }
+    }],
+    "outbounds": [{
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [{
+          "address": "v2ray-server",
+          "port": 8080,
+          "users": [{ "id": "bcc71618-e552-42c2-a2a3-d4c17a9df764" }]
+        }]
+      },
+      "streamSettings": {
+        "network": "mkcp",
+        "security": "tls",
+        "tlsSettings": {
+          "allowInsecure": false,
+          "serverName": "v2ray-server",
+          "publicKey": "__CERT_HASH__"
+        },
+        "kcpSettings": { "uplinkCapacity": 5, "downlinkCapacity": 20, "congestion": true, "header": { "type": "wechat-video" } }
+      }
+    }]
+  }
