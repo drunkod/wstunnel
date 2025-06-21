@@ -1,0 +1,38 @@
+
+{
+    "inbounds": [
+      {
+        "port": 1080,
+        "listen": "127.0.0.1",
+        "protocol": "socks",
+        "settings": {
+          "udp": true
+        }
+      }
+    ],
+    "outbounds": [
+      {
+        "protocol": "vmess",
+        "settings": {
+          "vnext": [
+            {
+              "address": "node199819-00000000-clone108363.0000000.0000",
+              "users": [
+                {
+                  "id": "f47ac10b-58cc-oooo-a567-0e0oooooo79",
+                  "alterId": 0,
+                  "security": "auto"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "ws",
+          "wsSettings": {
+            "path": "/v2ray-endpoint" 
+          }
+        }
+      }
+    ]
+  }
