@@ -1,4 +1,4 @@
-# flake.nix (Corrected version)
+# flake.nix (Final, Robust Version with DNS and Domain Strategy)
 {
   description = "A simple V2Ray flake providing a SOCKS5/HTTP proxy for debug testing";
 
@@ -16,6 +16,18 @@
         proxyConfig = pkgs.writeText "v2ray-proxy-config.json" ''
           {
             "log": { "loglevel": "debug" },
+
+            # --- THE NEW FIX IS HERE ---
+            # We are giving V2Ray its own, reliable DNS servers to use.
+            # This makes lookups fast and independent of the system's DNS.
+            "dns": {
+              "servers": [
+                "8.8.8.8",
+                "1.1.1.1",
+                "localhost"
+              ]
+            },
+            
             "inbounds": [
               {
                 "listen": "0.0.0.0",
@@ -29,7 +41,18 @@
                 "protocol": "http"
               }
             ],
-            "outbounds": [ { "protocol": "freedom" } ]
+            
+            # --- THIS FIX IS STILL IMPORTANT ---
+            # This tells V2Ray to *use* the result of the DNS lookup
+            # from the block above, which avoids the IPv6 issue.
+            "outbounds": [
+              {
+                "protocol": "freedom",
+                "settings": {
+                  "domainStrategy": "UseIPv4"
+                }
+              }
+            ]
           }
         '';
 
@@ -49,10 +72,8 @@
           program = "${self.packages.${system}.default}/bin/run-v2ray-proxy";
         };
 
-        # A development shell with v2ray, curl, and our custom script for testing
         devShells.default = pkgs.mkShell {
           name = "v2ray-proxy-shell";
-          # THE FIX IS HERE: Added self.packages.${system}.default to the list
           buildInputs = [ v2rayPackage pkgs.curl self.packages.${system}.default ];
           shellHook = ''
             echo "--- V2Ray Proxy Dev Shell ---"

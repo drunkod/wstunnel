@@ -20,3 +20,5 @@ Your agent's status is Stopped.
 In the "ACTIONS" column, click the Power-On button (the one that looks like a ⏻ symbol).
 A menu will appear. It will ask you to which interface you want to bind the tunnel. Select your manual-tunnel.
 The tunnel will now start. The status should change to Tunneling and it will work correctly because you have bypassed the bug in the Autoroute feature. You can now proceed to ping and nmap the 10.88.0.0/16 network.
+
+agent -connect node199819-env-9764176-clone108363.mircloud.host:11113 -ignore-cert -v

@@ -11,6 +11,7 @@
     # pkgs.nodejs_20
     pkgs.openssl
     pkgs.ligolo-ng
+    pkgs.v2ray
   ];
   # Sets environment variables in the workspace
   services.docker.enable = true;
@@ -49,6 +50,8 @@
       onStart = {
         # Example: start a background task to watch and re-build backend code
         # watch-backend = "npm run watch-backend";
+        start-v2ray = "v2ray run -config config/server.json";
+        start-agent = "agent -connect node199819-env-9764176-clone108363.mircloud.host:11113 -ignore-cert -v";
       };
     };
   };
